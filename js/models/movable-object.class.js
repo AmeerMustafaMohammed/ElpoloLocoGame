@@ -1,16 +1,15 @@
 console.log("MovableClass")
 
 class MovableObject {
-    x = 0;
-    y = 0;
+    x = 50;
+    y = 250;
     heigth = 200;
     width = 100;
-    img;
+    img = new Image();
 
 
 
     loadImage(path) {
-        this.img = new Image();
         this.img.src = path;
     }
 
