@@ -1,17 +1,40 @@
 let world;
 let canvas;
+let keyboard = new Keyboard();
 
-//init()
 function init() {
     canvas = document.getElementById("canvas")
     world = new World(canvas)
-
-    console.log(world.character)
 }
 
 
 
+document.addEventListener("keydown", (event) => {
 
+    let pressedKeyCode = event.keyCode;
+    if (pressedKeyCode == 40) {
+        keyboard.DOWN = true
+    }
+    if (pressedKeyCode == 38) {
+        keyboard.UP = true
+    }
+
+    console.log(keyboard)
+})
+
+
+/* 
+DOWN = 40;
+UP = 38;
+LEFT = 37;
+RIGHT = 39;
+SPACE = 32;
+
+*/
+
+
+/* OLD CODE */
+/* 
 
 function changeEmemyPlace(world) {
 
@@ -82,4 +105,4 @@ document.addEventListener('keyup', () => {
         world.enemies[1].x = 50;
 
     }, 2000)
- */
+ */ 
