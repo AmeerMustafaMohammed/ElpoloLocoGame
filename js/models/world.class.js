@@ -1,6 +1,7 @@
 class World {
     ctx;
     canvas;
+    keyboard;
     backgroundobjects = [
         new Backgroundobject("img/5_background/layers/air.png"),
         new Backgroundobject("img/5_background/layers/3_third_layer/1.png"),
@@ -10,8 +11,8 @@ class World {
     clouds = [
         new Cloud()
     ]
-    character = [
-        new Character(0, 0)
+    characters = [
+        new Character(keyboard)
     ]
     enemies = [
         new Chicken(),
@@ -20,24 +21,27 @@ class World {
     ]
 
 
-    constructor(canvas) {
+    constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d')
         this.canvas = canvas;
+        this.keyboard = keyboard;
         this.draw()
-        console.log(this.backgroundobjects)
-        console.log(this.enemies)
-
+        this.setKeyboardForEntities()
     }
 
     draw() {
         this.clearCanvas()
         this.drawObjects(this.backgroundobjects)
         this.drawObjects(this.clouds)
-        this.drawObjects(this.character)
+        this.drawObjects(this.characters)
         this.drawObjects(this.enemies)
         this.reDraw()
     }
 
+    setKeyboardForEntities() {
+        this.characters.forEach(character => character.keyboard = this.keyboard)
+        this.enemies.forEach(enemy => enemy.keyboard = this.keyboard)
+    }
     /**
         * Schedule a redraw of the current object using `requestAnimationFrame()`.
         * This method is typically used to schedule a redraw of a canvas or other graphical element.

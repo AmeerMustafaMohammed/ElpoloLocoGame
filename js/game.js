@@ -4,7 +4,8 @@ let keyboard = new Keyboard();
 
 function init() {
     canvas = document.getElementById("canvas")
-    world = new World(canvas)
+    world = new World(canvas, keyboard)
+
 }
 
 
@@ -12,6 +13,7 @@ function init() {
 document.addEventListener("keydown", (event) => {
 
     let pressedKeyCode = event.keyCode;
+
     if (pressedKeyCode == 40) {
         keyboard.DOWN = true
     }
@@ -19,9 +21,41 @@ document.addEventListener("keydown", (event) => {
         keyboard.UP = true
     }
 
-    console.log(keyboard)
+    if (pressedKeyCode == 37) {
+        keyboard.LEFT = true
+    }
+    if (pressedKeyCode == 39) {
+        keyboard.RIGHT = true
+    }
+    if (pressedKeyCode == 32) {
+        keyboard.SPACE = true
+    }
+
 })
 
+
+document.addEventListener("keyup", (event) => {
+
+    let pressedKeyCode = event.keyCode;
+
+    if (pressedKeyCode == 40) {
+        keyboard.DOWN = false
+    }
+    if (pressedKeyCode == 38) {
+        keyboard.UP = false
+    }
+
+    if (pressedKeyCode == 37) {
+        keyboard.LEFT = false
+    }
+    if (pressedKeyCode == 39) {
+        keyboard.RIGHT = false
+    }
+    if (pressedKeyCode == 32) {
+        keyboard.SPACE = false
+    }
+
+})
 
 /* 
 DOWN = 40;

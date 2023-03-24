@@ -1,6 +1,5 @@
 console.log("CharacterClass")
 
-
 class Character extends MovableObject {
     x = 50;
     y = 180;
@@ -15,11 +14,25 @@ class Character extends MovableObject {
         "img/2_character_pepe/2_walk/W-26.png"
     ]
 
-    constructor() {
+    constructor(keyboard) {
         super().loadImage("../img/2_character_pepe/2_walk/W-21.png")
+        this.keyboard = keyboard;
         this.loadImages("WalkingImages", this.IMAGE_WALKING)
-        this.walking()
+        this.animate()
     }
+
+
+    animate() {
+        let imageCondition = "WalkingImages";
+        const jsonLength = Object.keys(this.imageCache[imageCondition]).length;
+        setInterval(() => {
+            let loopCounter = this.loopWithModulo(jsonLength)
+            if (this.keyboard.RIGHT) {
+                this.img = this.imageCache[imageCondition][loopCounter];
+            }
+        }, 100)
+    }
+
     jump() {
         console.log("jump")
     }
