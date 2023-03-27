@@ -2,6 +2,7 @@ class World {
     ctx;
     canvas;
     keyboard;
+    camera_x =0;
     backgroundobjects = [
         new Backgroundobject("img/5_background/layers/air.png"),
         new Backgroundobject("img/5_background/layers/3_third_layer/1.png"),
@@ -11,13 +12,14 @@ class World {
     clouds = [
         new Cloud()
     ]
-    characters = [
-        new Character(keyboard)
-    ]
+    
     enemies = [
         new Chicken(),
         new Chicken(),
         new Chicken()
+    ]
+    characters = [
+        new Character(keyboard),
     ]
 
 
@@ -25,24 +27,54 @@ class World {
         this.ctx = canvas.getContext('2d')
         this.canvas = canvas;
         this.keyboard = keyboard;
-        this.draw()
-        this.setKeyboardForEntities()
+        this.drawObjects()
+        this.setWorld()
     }
 
-    draw() {
+    drawObjects() {
         this.clearCanvas()
-        this.drawObjects(this.backgroundobjects)
-        this.drawObjects(this.clouds)
-        this.drawObjects(this.characters)
-        this.drawObjects(this.enemies)
+        this.ctx.translate(this.camera_x,0)
+        this.draw(this.backgroundobjects)
+        this.draw(this.clouds)
+        this.draw(this.enemies)
+        this.draw(this.characters)
+        this.ctx.translate(-this.camera_x,0)
         this.reDraw()
     }
 
-    setKeyboardForEntities() {
-        this.characters.forEach(character => character.keyboard = this.keyboard)
-        this.enemies.forEach(enemy => enemy.keyboard = this.keyboard)
+    setWorld() {
+    this.characters.forEach(character =>character.world = this)
     }
-    /**
+   
+   
+    draw(objects) {
+        for(let i =0;i<objects.length;i++){
+            let currentObject = objects[i]
+            this.flipImage(currentObject)
+            this.ctx.drawImage(currentObject.img, currentObject.x, currentObject.y, currentObject.width, currentObject.height)
+            this.flipImageBack(currentObject)
+        }
+      
+    }
+
+
+    //SUBfuntions
+   
+    flipImage(object){
+        if(object.otherDirection){
+            this.ctx.save();
+            this.ctx.translate(object.width,0)
+            this.ctx.scale(-1,1);
+            object.x = object.x * -1;
+        }
+    }
+    flipImageBack(object){
+        if(object.otherDirection){
+            this.ctx.restore();
+            object.x = object.x * -1;
+        }
+    }
+ /**
         * Schedule a redraw of the current object using `requestAnimationFrame()`.
         * This method is typically used to schedule a redraw of a canvas or other graphical element.
     */
@@ -50,13 +82,10 @@ class World {
     reDraw() {
         let self = this;
         requestAnimationFrame(function () {
-            self.draw();
+            self.drawObjects();
         });
     }
 
-    drawObjects(objects) {
-        objects.forEach(object => this.ctx.drawImage(object.img, object.x, object.y, object.width, object.height))
-    }
     clearCanvas() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }

@@ -5,11 +5,11 @@ class MovableObject {
     y;
     height;
     width;
-    keyboard;
     speed = 0.15;
     img = new Image();
     imageCache = {};
     increasingDigit = 0;
+    otherDirection = false;
     constructor() {
         //Empty
     }
