@@ -1,64 +1,46 @@
 class World {
+    level = levelEins;
     ctx;
     canvas;
     keyboard;
     camera_x =0;
-    backgroundobjects = [
-        new Backgroundobject("img/5_background/layers/air.png"),
-        new Backgroundobject("img/5_background/layers/3_third_layer/1.png"),
-        new Backgroundobject("img/5_background/layers/2_second_layer/1.png"),
-        new Backgroundobject("img/5_background/layers/1_first_layer/1.png")
-    ]
-    clouds = [
-        new Cloud()
-    ]
-    
-    enemies = [
-        new Chicken(),
-        new Chicken(),
-        new Chicken()
-    ]
-    characters = [
-        new Character(keyboard),
-    ]
-
-
+    character =  new Character();
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d')
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.drawObjects()
-        this.setWorld()
     }
-
+   
+    drawCharacter(){
+        this.flipImage(this.character)
+        this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.width, this.character.height)
+        this.character.world = this
+        this.flipImageBack(this.character)
+    }
     drawObjects() {
         this.clearCanvas()
+        //TODO
         this.ctx.translate(this.camera_x,0)
-        this.draw(this.backgroundobjects)
-        this.draw(this.clouds)
-        this.draw(this.enemies)
-        this.draw(this.characters)
+
+        this.draw(this.level.backgroundobjects)
+        this.draw(this.level.clouds)
+        this.draw(this.level.enemies)
+       
+        
+        this.drawCharacter()
+      
         this.ctx.translate(-this.camera_x,0)
         this.reDraw()
     }
 
-    setWorld() {
-    this.characters.forEach(character =>character.world = this)
-    }
-   
-   
     draw(objects) {
-        for(let i =0;i<objects.length;i++){
-            let currentObject = objects[i]
-            this.flipImage(currentObject)
-            this.ctx.drawImage(currentObject.img, currentObject.x, currentObject.y, currentObject.width, currentObject.height)
-            this.flipImageBack(currentObject)
-        }
-      
+        objects.forEach(object => this.ctx.drawImage(object.img, object.x, object.y, object.width, object.height))
     }
 
 
     //SUBfuntions
+   
    
     flipImage(object){
         if(object.otherDirection){

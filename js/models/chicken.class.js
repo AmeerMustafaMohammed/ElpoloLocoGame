@@ -1,5 +1,3 @@
-console.log("ChickenClass")
-
 
 class Chicken extends MovableObject {
     y = 330;
@@ -27,7 +25,7 @@ class Chicken extends MovableObject {
         this.walking();
         this.moveleft();
     }
-    dead() {
+   /*  dead() {
         this.currentImage = 0;
         setInterval(() => {
             let i = this.currentImage % this.IMAGE_DEAD.length
@@ -41,7 +39,7 @@ class Chicken extends MovableObject {
 
     eat() {
         console.log("Eat")
-    }
+    } */
 }
 
 

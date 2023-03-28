@@ -36,17 +36,31 @@ class Character extends MovableObject {
     //SUB Functions FOR WALKING ANIMATION
     movingCharackter(){
         setInterval(() => {
-            if (this.world.keyboard.RIGHT) {
+            
+            if (this.world.keyboard.RIGHT && this.x <this.world.level.level_end_x) {
                 this.x += this.speed;
                 this.otherDirection = false;
+                this.walkingAudio.play()
             }
-            if (this.world.keyboard.LEFT) {
+            
+
+            if (this.world.keyboard.LEFT && this.x >-100) {
                 this.x -= this.speed;
                 this.otherDirection = true;
             }
-            console.log(this.x)
-            this.world.camera_x = -this.x;
+            this.playWalkingSound()
+
+                this.world.camera_x = -this.x + 100;
+            
+           
         }, 1000/60);
+    }
+    playWalkingSound(){
+        if(this.world.keyboard.LEFT || this.world.keyboard.RIGHT){
+            this.walkingAudio.play();
+        }else{
+            this.walkingAudio.pause()
+        }
     }
     changeImages_Walking(){
         let imageCondition = "WalkingImages";

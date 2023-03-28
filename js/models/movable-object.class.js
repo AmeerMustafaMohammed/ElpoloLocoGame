@@ -10,17 +10,27 @@ class MovableObject {
     imageCache = {};
     increasingDigit = 0;
     otherDirection = false;
+    walkingAudio = new Audio("Audio/walking.mp3")
+
     constructor() {
         //Empty
     }
 
 
     walking() {
-        let imageCondition = "WalkingImages";
-        const jsonLength = Object.keys(this.imageCache[imageCondition]).length;
+        let animationImages = "WalkingImages";
+        this.playAnimation(animationImages)
+    }
+    alert(){
+        let animationImages = "alertImages";
+        this.playAnimation(animationImages)
+    }
+    
+    playAnimation(animationImages){
+        const jsonLength = Object.keys(this.imageCache[animationImages]).length;
         setInterval(() => {
             let loopCounter = this.loopWithModulo(jsonLength)
-            this.img = this.imageCache[imageCondition][loopCounter];
+            this.img = this.imageCache[animationImages][loopCounter];
         }, 100)
     }
 
@@ -40,6 +50,7 @@ class MovableObject {
         this.img.src = path;
     }
 
+   
 
     moveRight() {
         console.log("moveRight")
@@ -47,6 +58,7 @@ class MovableObject {
     moveleft() {
         setInterval(() => {
             this.x -= this.speed;
+          
         }, 1000 / 60)
     }
 
