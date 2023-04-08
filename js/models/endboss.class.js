@@ -14,9 +14,9 @@ class Endboos extends MovableObject{
         "img/4_enemie_boss_chicken/2_alert/G12.png",
     ];
     constructor() {
-        super().loadImage(this.IMAGE_ALERT[0])
-        this.loadImages("alertImages", this.IMAGE_ALERT)
-        this.animate();
+        super().loadImage("img/4_enemie_boss_chicken/2_alert/G5.png")
+        this.loadImages(this.IMAGE_ALERT)
+        //this.animate();
     }
 
     animate() {

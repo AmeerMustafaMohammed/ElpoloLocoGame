@@ -37,4 +37,4 @@ const levelEins= new Level(
         new Endboos()
     ]
 );
-console.log(levelEins)
+

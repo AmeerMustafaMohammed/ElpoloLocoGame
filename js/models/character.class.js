@@ -1,8 +1,7 @@
-console.log("CharacterClass")
 
 class Character extends MovableObject {
-    x = 50;
-    y = 180;
+    x = 10;
+    y = 190;
     height = 250;
     width = this.height - 100;
     speed = 8;
@@ -15,45 +14,73 @@ class Character extends MovableObject {
         "img/2_character_pepe/2_walk/W-25.png",
         "img/2_character_pepe/2_walk/W-26.png"
     ]
+    JUMP_IMAGES = [
+        "img/2_character_pepe/3_jump/J-31.png",
+        "img/2_character_pepe/3_jump/J-32.png",
+        "img/2_character_pepe/3_jump/J-33.png",
+        "img/2_character_pepe/3_jump/J-34.png",
+        "img/2_character_pepe/3_jump/J-35.png",
+        "img/2_character_pepe/3_jump/J-36.png",
+        "img/2_character_pepe/3_jump/J-37.png",
+        "img/2_character_pepe/3_jump/J-38.png",
+        "img/2_character_pepe/3_jump/J-39.png"
+        
+    ]
+    IMAGE_DEAD =[
+        "img/2_character_pepe/5_dead/D-51.png",
+        "img/2_character_pepe/5_dead/D-52.png",
+        "img/2_character_pepe/5_dead/D-53.png",
+        "img/2_character_pepe/5_dead/D-54.png",
+        "img/2_character_pepe/5_dead/D-55.png",
+        "img/2_character_pepe/5_dead/D-56.png",
+        "img/2_character_pepe/5_dead/D-57.png"
+    ]
+    IMAGE_HURT =[
+        "img/2_character_pepe/4_hurt/H-41.png",
+        "img/2_character_pepe/4_hurt/H-42.png",
+        "img/2_character_pepe/4_hurt/H-43.png"
+    ]
 
     constructor() {
         super().loadImage("img/2_character_pepe/2_walk/W-21.png")
-        this.loadImages("WalkingImages", this.IMAGE_WALKING)
+        this.loadImages(this.IMAGE_WALKING)
+        this.loadImages(this.JUMP_IMAGES)
+        this.loadImages(this.IMAGE_DEAD)
+        this.loadImages(this.IMAGE_HURT)
         this.animate()
+       this.applayGravity()
     }
 
 
     animate() {
-        this.walkingAnimation()
-        
+        this.walking()
+        this.jumpAnimation()
+        this.deadAnimation()
+        this.hurtAnimation()
     }
 
-    walkingAnimation(){
+    walking(){
         this.movingCharackter()
-        this.changeImages_Walking()
+        this.walkingAnimation()
     }
 
     //SUB Functions FOR WALKING ANIMATION
     movingCharackter(){
-        setInterval(() => {
-            
+        setInterval(() => {    
             if (this.world.keyboard.RIGHT && this.x <this.world.level.level_end_x) {
-                this.x += this.speed;
-                this.otherDirection = false;
-                this.walkingAudio.play()
+                this.moveRight()
             }
             
-
             if (this.world.keyboard.LEFT && this.x >-100) {
-                this.x -= this.speed;
-                this.otherDirection = true;
+                this.moveleft()
             }
             this.playWalkingSound()
 
-                this.world.camera_x = -this.x + 100;
-            
-           
+            this.moveCamera()    
         }, 1000/60);
+    }
+    moveCamera(){
+        this.world.camera_x = -this.x + 100;
     }
     playWalkingSound(){
         if(this.world.keyboard.LEFT || this.world.keyboard.RIGHT){
@@ -62,19 +89,57 @@ class Character extends MovableObject {
             this.walkingAudio.pause()
         }
     }
-    changeImages_Walking(){
-        let imageCondition = "WalkingImages";
-        const jsonLength = Object.keys(this.imageCache[imageCondition]).length;
-        setInterval(() => {
-            let loopCounter = this.loopWithModulo(jsonLength)
-            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                 //Walk animation
-                this.img = this.imageCache[imageCondition][loopCounter];
-            }
-        }, 50)
+    
+   walkingAnimation(){
+   setInterval(()=>{
+        if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT){
+            this.changeImages(this.IMAGE_WALKING)
+        }
+
+    }, 100)
+   
     }
+
+
     //END ____  SUB Functions FOR WALKING ANIMATION
-    jump() {
-        console.log("jump")
+
+
+    
+    jumpAnimation(){
+        setInterval(()=>{
+            if(this.isInAir()){
+                this.changeImages(this.JUMP_IMAGES)
+            }
+
+            if(this.world.keyboard.SPACE && !this.isInAir()){
+                this.jump()
+            }
+        }, 200 )
+
     }
+
+    deadAnimation(){
+        setInterval(()=>{
+            if( this.isDead()){
+                this.changeImages(this.IMAGE_DEAD)
+          
+            }
+        }, 200 )
+    }
+
+    hurtAnimation(){
+        setInterval(()=>{
+            if(this.isHurt()){
+                this.changeImages(this.IMAGE_HURT)
+          
+            }
+        }, 200 )
+    }
+    changeImages(images){
+        let i = this.currentImage % images.length
+        let path = images[i]
+        this.img = this.imageCache[path]
+        this.currentImage++
+    }
+    
 }

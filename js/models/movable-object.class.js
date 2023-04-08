@@ -1,65 +1,69 @@
-console.log("MovableClass")
 
-class MovableObject {
-    x;
-    y;
-    height;
-    width;
+class MovableObject extends DrawableOject{
+    energy = 100;
     speed = 0.15;
-    img = new Image();
-    imageCache = {};
-    increasingDigit = 0;
     otherDirection = false;
+    acceleration = 2.5;
+    speedY = 0;
+    lastHit =0;
     walkingAudio = new Audio("Audio/walking.mp3")
+    offset = {
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+    }
 
     constructor() {
-        //Empty
+       super()
     }
 
-
-    walking() {
-        let animationImages = "WalkingImages";
-        this.playAnimation(animationImages)
+    jump(){
+        this.speedY =30
     }
-    alert(){
-        let animationImages = "alertImages";
-        this.playAnimation(animationImages)
-    }
-    
-    playAnimation(animationImages){
-        const jsonLength = Object.keys(this.imageCache[animationImages]).length;
+    applayGravity(){
         setInterval(() => {
-            let loopCounter = this.loopWithModulo(jsonLength)
-            this.img = this.imageCache[animationImages][loopCounter];
-        }, 100)
+          if(this.isInAir() ||  this.speedY>0){
+           //DOWN
+            this.y -= this.speedY;
+            this.speedY -= this.acceleration;
+          }
+        }, 50);
     }
 
-
-    //Save all imagespath as an Imageobject in newJson and add newJson to ImageCache
-    loadImages(imagesCondition, imagePaths) {
-        let newJson = {}
-        for (let i = 0; i < imagePaths.length; i++) {
-            let newImage = new Image();
-            newImage.src = imagePaths[i];
-            newJson[i] = newImage;
+    isInAir(){
+        if(this instanceof ThrowableObject){
+            return true;
         }
-        this.imageCache[imagesCondition] = newJson;
-    }
-
-    loadImage(path) {
-        this.img.src = path;
+        return this.y < 180;
     }
 
    
+    alert(){
+        let animationImages = "alertImages";
+        //this.playAnimation(animationImages)
+    }
+    
+    playAnimation(){
+        setInterval(()=>{
+            let i = this.currentImage % this.IMAGE_WALKING.length
+            let path = this.IMAGE_WALKING[i]
+            this.img = this.imageCache[path]
+            this.currentImage++
+        },100)
 
+    }
+
+
+   
     moveRight() {
-        console.log("moveRight")
+        this.x += this.speed;
+        this.otherDirection = false;
     }
     moveleft() {
-        setInterval(() => {
             this.x -= this.speed;
-          
-        }, 1000 / 60)
+            this.otherDirection = true;
+           
     }
 
     loopWithModulo(arrayLength) {
@@ -67,4 +71,34 @@ class MovableObject {
         this.increasingDigit++
         return i;
     }
-}
+    
+
+   
+    isColliding(mo) {
+        return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&    //   right > left =>   Collision in front
+            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&     //    top > bottom =>   Collision bottom
+            this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&       //     left > right =>   Collision behind
+            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;       //      bottom > top =>   Collision top  
+    }
+
+    hit(){
+        this.energy -=2;
+        if(this.energy<0){
+            this.energy = 0;
+        }
+        else{
+            this.lastHit = new Date().getTime();
+        }
+    }
+
+    isDead(){
+        return   this.energy == 0;
+    }
+    
+    isHurt(){
+        let timepassed = new Date().getTime() - this.lastHit
+            timepassed = timepassed / 1000;
+            return timepassed < 0.5;
+       }
+    
+} 
