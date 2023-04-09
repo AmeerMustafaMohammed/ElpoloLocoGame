@@ -89,6 +89,7 @@ class MovableObject extends DrawableOject{
         else{
             this.lastHit = new Date().getTime();
         }
+       
     }
 
     isDead(){

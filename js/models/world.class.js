@@ -4,22 +4,31 @@ class World {
     canvas;
     keyboard;
     camera_x =0;
+    treasure ={
+        "coins": 0,
+        "bottle":0,
+        }
     statusbars = [
-      new StatusBar()
+      new LifeBar(),
+      new CoinBar(),
+      new BottleBar()
 
     ]
     throwableObjects =[
         
     ]
     collectableObjects=[
-        new Bottel(200,350) ,
-        new Bottel(800,350) ,
-        new Bottel(1000,350) ,
-        new Bottel(2000,350) ,
+        new Bottle(200,350) ,
+        new Bottle(800,350) ,
+        new Bottle(1000,350) ,
+        new Bottle(2000,350) ,
+        new Bottle(2200,350) ,
+        
         new Coin(200,100) ,
         new Coin(800,100) ,
         new Coin(1000,100) ,
         new Coin(1900,100) ,
+        new Coin(2000,100) ,
 
     ]
     characters =  [new Character()]
@@ -82,15 +91,20 @@ class World {
             this.checkCollisions()
            
             //Throwing
-            if(this.keyboard.D){
-                this.addBeutel()
+            if(this.keyboard.D && this.treasure["bottle"]>0){
+                this.treasure["bottle"] -=20
+                this.throwBottle()
+                
             }
         },100)
     }
     //TODO::
-    addBeutel(){
+    throwBottle(){
             this.throwableObjects.push(new ThrowableObject(this.characters[0].x))
+            this.updateTrasure(2,"bottle")
     }
+
+    //COLISIONENS
     checkCollisions(){
             this.detectEnemyCollision()
             this.detectCollectibleCollision()
@@ -101,21 +115,48 @@ class World {
     enemies.forEach((enemy)=>{
         if(this.characters[0].isColliding(enemy)){
             this.characters[0].hit()
-            this.statusbars[0].setPercentage(this.characters[0].energy)
+            this.statusbars[0].changePercentage(this.characters[0].energy)
         }
     })
  }
  detectCollectibleCollision(){
         this.collectableObjects.forEach((collectableObject)=>{
             if(collectableObject.isColliding(this.characters[0])){ 
+                    //this.changeStatusBar(collectableObject)
+
+                this.addToMyTreasure(collectableObject)
                 collectableObject.removeObject(collectableObject,this.collectableObjects)
-                collectableObject.collect();
+                //TODO
             }
           
         })
        }
-            
+       addToMyTreasure(collectableObject){
+        if(collectableObject instanceof Coin){
+          
+            this.treasure["coins"] +=20;
+            this.updateTrasure(1,"coins");
 
+           
+        }
+        if(collectableObject instanceof Bottle){
+            this.treasure["bottle"] +=20;
+            this.updateTrasure(2,"bottle");
+          
+        }
+       
+    }
+      
+    updateTrasure(x,y){
+        
+        console.log(this.treasure[`${y}`])
+        this.statusbars[x].changePercentage(this.treasure[y])
+
+    }
+       changeStatusBar(collectableObject){
+        //console.log(collectableObject)
+        //collectableObject.changePercentage();
+       }
     /* FRAME */
     drawFrame(x,y,width,height){
         this.ctx.beginPath();

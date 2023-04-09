@@ -10,6 +10,6 @@ class CollectableObject extends MovableObject{
     }
 
     collect(){
-        console.log("collect" ,this)
+       
     }
 }
