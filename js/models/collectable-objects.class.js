@@ -4,11 +4,7 @@ class CollectableObject extends MovableObject{
         super();
     }
 
-    removeObject(object,array){
-        let thisClass = this
-        array.splice(array.indexOf(object), 1);
-    }
-
+   
     collect(){
        
     }

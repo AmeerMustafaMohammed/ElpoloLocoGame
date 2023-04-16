@@ -22,8 +22,7 @@ class World {
         new Bottle(800,350) ,
         new Bottle(1000,350) ,
         new Bottle(2000,350) ,
-        new Bottle(2200,350) ,
-        
+        new Bottle(2200,350) ,  
         new Coin(200,100) ,
         new Coin(800,100) ,
         new Coin(1000,100) ,
@@ -40,6 +39,7 @@ class World {
         this.checkCollisions();
         this.renderLevelOne()
         this.worldInterwals();
+        console.log(this.level)
     }
    
 
@@ -96,7 +96,9 @@ class World {
                 this.throwBottle()
                 
             }
-        },100)
+            
+            //console.log(this.level.enemies[0].y +this.level.enemies[0].height )
+        },50)
     }
     //TODO::
     throwBottle(){
@@ -106,23 +108,35 @@ class World {
 
     //COLISIONENS
     checkCollisions(){
-            this.detectEnemyCollision()
-            this.detectCollectibleCollision()
+        this.detectKilling()
+        this.detectEnemyCollision()
+        this.detectCollectibleCollision()
     }
 
     detectEnemyCollision(){
     let enemies = this.level.enemies
     enemies.forEach((enemy)=>{
-        if(this.characters[0].isColliding(enemy)){
+        if(this.characters[0].isColliding(enemy) && !enemy.dead){
             this.characters[0].hit()
             this.statusbars[0].changePercentage(this.characters[0].energy)
         }
     })
  }
+
+ detectKilling(){
+    let enemies = this.level.enemies
+    enemies.forEach((enemy)=>{
+        if(this.characters[0].KillingNormalAnemy(enemy)){
+           enemy.dead = true;
+           enemy.playDeadSound()
+           return true;
+        }
+    })
+ }
  detectCollectibleCollision(){
         this.collectableObjects.forEach((collectableObject)=>{
-            if(collectableObject.isColliding(this.characters[0])){ 
-                    //this.changeStatusBar(collectableObject)
+        
+            if(this.characters[0].isColliding(collectableObject)){ 
 
                 this.addToMyTreasure(collectableObject)
                 collectableObject.removeObject(collectableObject,this.collectableObjects)
@@ -148,15 +162,9 @@ class World {
     }
       
     updateTrasure(x,y){
-        
-        console.log(this.treasure[`${y}`])
         this.statusbars[x].changePercentage(this.treasure[y])
-
     }
-       changeStatusBar(collectableObject){
-        //console.log(collectableObject)
-        //collectableObject.changePercentage();
-       }
+   
     /* FRAME */
     drawFrame(x,y,width,height){
         this.ctx.beginPath();

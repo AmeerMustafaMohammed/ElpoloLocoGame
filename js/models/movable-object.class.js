@@ -1,11 +1,13 @@
 
 class MovableObject extends DrawableOject{
+    dead = false;
     energy = 100;
     speed = 0.15;
     otherDirection = false;
     acceleration = 2.5;
     speedY = 0;
     lastHit =0;
+    localInterval = [];
     walkingAudio = new Audio("Audio/walking.mp3")
     offset = {
         top: 0,
@@ -44,16 +46,26 @@ class MovableObject extends DrawableOject{
         //this.playAnimation(animationImages)
     }
     
-    playAnimation(){
-        setInterval(()=>{
-            let i = this.currentImage % this.IMAGE_WALKING.length
-            let path = this.IMAGE_WALKING[i]
+    playAnimation(images){
+     let id = setInterval(()=>{
+            let i = this.currentImage % images.length   
+            let path =images[i]
             this.img = this.imageCache[path]
             this.currentImage++
         },100)
-
+        this.saveIntervalId(id)
     }
 
+  stopAnimation(){
+    this.localInterval.forEach((e)=>{
+        clearInterval(e)
+    })
+   
+  }
+
+  saveIntervalId(id){
+    this.localInterval.push(id)
+  }
 
    
     moveRight() {
@@ -75,10 +87,17 @@ class MovableObject extends DrawableOject{
 
    
     isColliding(mo) {
-        return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&    //   right > left =>   Collision in front
-            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&     //    top > bottom =>   Collision bottom
-            this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&       //     left > right =>   Collision behind
-            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;       //      bottom > top =>   Collision top  
+        let rightLeft = this.x + this.width - this.offset.right > mo.x + mo.offset.left;   //   right > left =>   Collision in front
+        let topBottom = this.y + this.height - this.offset.bottom > mo.y + mo.offset.top;    //    top > bottom =>   Collision bottom
+        let leftRight = this.x + this.offset.left < mo.x + mo.width - mo.offset.right;       //     left > right =>   Collision behind
+        let bottomTop = this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;//      bottom > top =>   Collision top  
+        return rightLeft && topBottom && leftRight && bottomTop
+    }
+
+    KillingNormalAnemy(mo){
+        let firstCondition = this.isColliding(mo) 
+        let secondCondition = this instanceof Character && this.isInAir() 
+        return firstCondition && secondCondition
     }
 
     hit(){
@@ -101,5 +120,11 @@ class MovableObject extends DrawableOject{
             timepassed = timepassed / 1000;
             return timepassed < 0.5;
        }
+
+
+       removeObject(object,array){
+        array.splice(array.indexOf(object), 1);
+    }
+
     
 } 

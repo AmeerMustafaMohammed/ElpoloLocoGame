@@ -34,6 +34,7 @@ const levelEins= new Level(
         new Chicken(),
         new Chicken(),
         new Chicken(),
+        new Chicken(),
         new Endboos()
     ]
 );
