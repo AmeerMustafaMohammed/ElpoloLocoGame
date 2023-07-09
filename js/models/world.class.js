@@ -11,12 +11,6 @@ class World {
         "coins": 0,
         "bottle":0,
         }
-    statusbars = [
-      new LifeBar(),
-      new CoinBar(),
-      new BottleBar()
-
-    ]
     throwableObjects =[
         
     ]
@@ -100,7 +94,6 @@ class World {
                 this.treasure["bottle"] -=20
                 this.throwBottle()
                 this.setMaximalBottle()
-              
             }
             
             
@@ -116,9 +109,11 @@ class World {
     //TODO::
     throwBottle(){
         let bottelY = this.characters[0].y +(this.characters[0].height/2);
-        console.log(bottelY)
-            this.throwableObjects.push(new ThrowableObject(this.characters[0].x,bottelY))
-            this.updateTrasure(2,"bottle")
+        let bootleX = this.characters[0].x;
+        let bootleDirection = this.characters[0].otherDirection;
+        let bootle = new ThroableBottle(bootleX,bottelY,bootleDirection)
+        this.throwableObjects.push(bootle)
+        this.updateBottelbar();
     }
 
     //COLISIONENS
@@ -133,8 +128,6 @@ class World {
     enemies.forEach((enemy)=>{
         if(this.characters[0].isColliding(enemy) && !enemy.dead){
             this.characters[0].hit()
-            console.log(this.statusbars[0].changePercentage(20))
-           //this.level.lifebar.changePercentage(this.characters[0].energy)
         }
     })
  }
@@ -158,33 +151,36 @@ class World {
         this.collectableObjects.forEach((collectableObject)=>{
         
             if(this.characters[0].isColliding(collectableObject)){ 
-
                 this.addToMyTreasure(collectableObject)
                 collectableObject.removeObject(collectableObject,this.collectableObjects)
-                //TODO
-            }
+        
+             }
           
         })
        }
        addToMyTreasure(collectableObject){
         if(collectableObject instanceof Coin){
-          
-            this.treasure["coins"] +=20;
-            this.updateTrasure(1,"coins");
 
-           
+            this.treasure["coins"] +=20;
+           this.updateCoinbar();
         }
         if(collectableObject instanceof Bottle){
             this.treasure["bottle"] +=20;
-            this.updateTrasure(2,"bottle");
-          
+          this.updateBottelbar();
+        
         }
        
     }
-      
-    updateTrasure(x,y){
-        this.statusbars[x].changePercentage(this.treasure[y])
+
+    updateCoinbar(){
+        this.level.coinbar[0].changePercentage(this.treasure["coins"]);
     }
+    updateBottelbar(){
+       
+        this.level.bottelbar[0].changePercentage(this.treasure["bottle"]);
+    }
+      
+    
    
     /* FRAME */
     drawFrame(x,y,width,height){

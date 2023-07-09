@@ -3,6 +3,7 @@ class MovableObject extends DrawableOject{
     dead = false;
     energy = 100;
     speed = 0.15;
+    animationSpeed = 100;
     otherDirection = false;
     acceleration = 2.5;
     speedY = 0;
@@ -34,7 +35,7 @@ class MovableObject extends DrawableOject{
     }
 
     isInAir(){
-        if(this instanceof ThrowableObject){
+        if(this instanceof ThroableBottle){
             return true;
         }
         return this.y < 180;
@@ -46,14 +47,24 @@ class MovableObject extends DrawableOject{
         //this.playAnimation(animationImages)
     }
     
-    playAnimation(images){
+    playAnimation(images,animationSpeed){
+        this.setAnimationSpeed(animationSpeed)
      let id = setInterval(()=>{
+
             let i = this.currentImage % images.length   
             let path =images[i]
             this.img = this.imageCache[path]
             this.currentImage++
-        },100)
+        },this.animationSpeed)
         this.saveIntervalId(id)
+    }
+
+
+    // applying outside speed on animation if exists
+    setAnimationSpeed(animationSpeed){
+        if(animationSpeed){
+            this.animationSpeed = animationSpeed;
+        }
     }
 
   stopAnimation(){
