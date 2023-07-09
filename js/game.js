@@ -59,6 +59,7 @@ document.addEventListener("keyup", (event) => {
     }
     if (pressedKeyCode == 68) {
         keyboard.D = false
+       
     }
 
 })

@@ -1,13 +1,12 @@
 class ThrowableObject extends MovableObject{
-  
-    y = 200;
     height = 100;
-    width= 100;
-    constructor(x){
+    width= 120;
+    constructor(x,y){
         super();
         this.loadImage("img/6_salsa_bottle/salsa_bottle.png")
         this.x = x;
-        this.speedY = 30;
+        this.y = y ; 
+        this.speedY =25;
         this.throw()
       
     }
@@ -19,7 +18,8 @@ class ThrowableObject extends MovableObject{
     }
     changeX(){
         setInterval(()=>{
-            this.x += 0.5;
-        })
+            this.x += 12;
+           
+        },25)
     }
 }

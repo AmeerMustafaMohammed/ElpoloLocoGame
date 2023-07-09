@@ -4,6 +4,9 @@ class World {
     canvas;
     keyboard;
     camera_x =0;
+    canThrowMaximalBottle = true;
+    characters =  [new Character()]
+    Character = this.characters[0]
     treasure ={
         "coins": 0,
         "bottle":0,
@@ -30,7 +33,7 @@ class World {
         new Coin(2000,100) ,
 
     ]
-    characters =  [new Character()]
+    
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d')
         this.canvas = canvas;
@@ -39,7 +42,6 @@ class World {
         this.checkCollisions();
         this.renderLevelOne()
         this.worldInterwals();
-        console.log(this.level)
     }
    
 
@@ -64,7 +66,10 @@ class World {
         this.draw(this.throwableObjects)
     }
     drawStaticObjects(){
-        this.draw(this.statusbars)
+      
+        this.draw(this.level.lifebar)
+        this.draw(this.level.bottelbar)
+        this.draw(this.level.coinbar)
     }
    
     drawMovableObjects(){
@@ -91,18 +96,28 @@ class World {
             this.checkCollisions()
            
             //Throwing
-            if(this.keyboard.D && this.treasure["bottle"]>0){
+            if(this.keyboard.D && this.treasure["bottle"]>0 && this.canThrowMaximalBottle){
                 this.treasure["bottle"] -=20
                 this.throwBottle()
-                
+                this.setMaximalBottle()
+              
             }
             
-            //console.log(this.level.enemies[0].y +this.level.enemies[0].height )
+            
         },50)
+    }
+
+    setMaximalBottle(){
+        this.canThrowMaximalBottle = false;
+        setTimeout(() => {
+          this.canThrowMaximalBottle = true;
+        }, 1000);
     }
     //TODO::
     throwBottle(){
-            this.throwableObjects.push(new ThrowableObject(this.characters[0].x))
+        let bottelY = this.characters[0].y +(this.characters[0].height/2);
+        console.log(bottelY)
+            this.throwableObjects.push(new ThrowableObject(this.characters[0].x,bottelY))
             this.updateTrasure(2,"bottle")
     }
 
@@ -118,21 +133,27 @@ class World {
     enemies.forEach((enemy)=>{
         if(this.characters[0].isColliding(enemy) && !enemy.dead){
             this.characters[0].hit()
-            this.statusbars[0].changePercentage(this.characters[0].energy)
+            console.log(this.statusbars[0].changePercentage(20))
+           //this.level.lifebar.changePercentage(this.characters[0].energy)
         }
     })
  }
 
- detectKilling(){
-    let enemies = this.level.enemies
-    enemies.forEach((enemy)=>{
-        if(this.characters[0].KillingNormalAnemy(enemy)){
-           enemy.dead = true;
-           enemy.playDeadSound()
-           return true;
-        }
-    })
- }
+ detectKilling() {
+    let enemies = this.level.enemies;
+    enemies.forEach((enemy, index) => {
+      if (this.characters[0].KillingNormalAnemy(enemy) && !enemy.dead) {
+        enemy.dead = true;
+        console.log("KILING" , index)
+        //enemy.playDeadSound();
+        // Remove the killed enemy from the enemies array
+        setTimeout(()=>{
+        this.level.enemies.splice(index, 1);
+        console.log("DELETED",index)           
+        },1000)
+      }
+    });
+  }
  detectCollectibleCollision(){
         this.collectableObjects.forEach((collectableObject)=>{
         
