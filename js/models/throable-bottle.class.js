@@ -10,8 +10,6 @@ class ThroableBottle extends Bottle{
         this.speedY =25;
         this.otherDirection = charackterDirection;
         this.throw()
-        console.log(this.otherDirection)
-      
     }
 
     
@@ -31,7 +29,12 @@ class ThroableBottle extends Bottle{
         },25)
     }
     rotate(){
-        this.playAnimation(this.IMAGE_ROTATION,50)
+            this.playAnimation(this.IMAGE_ROTATION,40)
+    }
+
+    splasch(){
+        this.playAnimation(this.IMAGE_SPLASH,30)
+        console.log("splashing")
     }
   
 }

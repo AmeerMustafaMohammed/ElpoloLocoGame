@@ -35,9 +35,11 @@ const levelEins= new Level(
         new Chicken(),
         new Chicken(),
         new Chicken(),
-        new Endboos()
     ]
     ,
+    specialEnemies = [
+        new Endboos()
+    ],
     lifebar = [new LifeBar()],
     coinbar = [new CoinBar()],
     bottelbar = [new BottleBar()]

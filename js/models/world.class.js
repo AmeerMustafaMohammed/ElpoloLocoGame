@@ -1,4 +1,5 @@
-class World {
+class World 
+{
     level = levelEins;
     ctx;
     canvas;
@@ -70,13 +71,15 @@ class World {
         this.draw(this.level.backgroundobjects)
         this.draw(this.level.clouds)
         this.draw(this.level.enemies)
+        this.draw(this.level.specialEnemies)
         this.draw(this.characters)
       
     }
    
     draw(objects) {
         objects.forEach(object =>{
-            if(object instanceof Character || object instanceof Chicken || object instanceof CollectableObject){
+            //TODO
+            if(true){
                 this.drawFrame(object.x, object.y, object.width,object.height)
             }
             this.flipImage(object)
@@ -87,6 +90,7 @@ class World {
 
     worldInterwals(){
         setInterval(()=>{
+            //Cheacking for Collisions
             this.checkCollisions()
            
             //Throwing
@@ -120,6 +124,7 @@ class World {
     checkCollisions(){
         this.detectKilling()
         this.detectEnemyCollision()
+        this.detectEndbosCollision()
         this.detectCollectibleCollision()
     }
 
@@ -132,45 +137,53 @@ class World {
     })
  }
 
+ 
  detectKilling() {
     let enemies = this.level.enemies;
     enemies.forEach((enemy, index) => {
       if (this.characters[0].KillingNormalAnemy(enemy) && !enemy.dead) {
         enemy.dead = true;
-        console.log("KILING" , index)
+    
         //enemy.playDeadSound();
         // Remove the killed enemy from the enemies array
         setTimeout(()=>{
-        this.level.enemies.splice(index, 1);
-        console.log("DELETED",index)           
+        this.level.enemies.splice(index, 1);     
         },1000)
       }
     });
   }
  detectCollectibleCollision(){
         this.collectableObjects.forEach((collectableObject)=>{
-        
             if(this.characters[0].isColliding(collectableObject)){ 
                 this.addToMyTreasure(collectableObject)
                 collectableObject.removeObject(collectableObject,this.collectableObjects)
-        
              }
           
         })
        }
-       addToMyTreasure(collectableObject){
-        if(collectableObject instanceof Coin){
-
-            this.treasure["coins"] +=20;
-           this.updateCoinbar();
-        }
-        if(collectableObject instanceof Bottle){
-            this.treasure["bottle"] +=20;
-          this.updateBottelbar();
         
+    detectEndbosCollision(){
+    let endBoss = this.level.specialEnemies[0];
+    this.throwableObjects.forEach((bootle)=>{
+        if(bootle.isColliding(endBoss)){
+           endBoss.hit();
+           bootle.splasch();
         }
-       
+    })
+     }
+addToMyTreasure(collectableObject){
+    if(collectableObject instanceof Coin){
+
+        this.treasure["coins"] +=20;
+        this.updateCoinbar();
     }
+    if(collectableObject instanceof Bottle){
+        this.treasure["bottle"] +=20;
+        this.updateBottelbar();
+
+    }
+
+}
 
     updateCoinbar(){
         this.level.coinbar[0].changePercentage(this.treasure["coins"]);
