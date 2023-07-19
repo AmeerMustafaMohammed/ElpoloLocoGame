@@ -1,6 +1,6 @@
 class Endboos extends MovableObject{
     y = -35;
-    x= 3*719 + 300;
+    x= 3*719 ;
     height = 500;
     width = 300;
     IMAGE_ALERT = [
@@ -13,28 +13,25 @@ class Endboos extends MovableObject{
         "img/4_enemie_boss_chicken/2_alert/G11.png",
         "img/4_enemie_boss_chicken/2_alert/G12.png",
     ];
+    IMAGE_DEAD = [
+        "img/4_enemie_boss_chicken/5_dead/G24.png",
+        "img/4_enemie_boss_chicken/5_dead/G25.png",
+        "img/4_enemie_boss_chicken/5_dead/G26.png"
+    ]
     constructor() {
         super().loadImage("img/4_enemie_boss_chicken/2_alert/G5.png")
         this.loadImages(this.IMAGE_ALERT)
-        //this.animate();
+        this.loadImages(this.IMAGE_DEAD)
+        this.animate()
     }
 
-    animate() {
-      this.alert()
+    animate(){
+        let id = setInterval(()=>{
+            if(this.isDead()){
+               this.playAnimation(this.IMAGE_DEAD,3000) 
+            }
+        },50)
     }
-   /*  dead() {
-        this.currentImage = 0;
-        setInterval(() => {
-            let i = this.currentImage % this.IMAGE_DEAD.length
-            console.log(i)
-            this.img = this.imageCache[this.IMAGE_DEAD[i]]
-            this.currentImage++
-            console.log("currentImage", this.currentImage)
-
-        }, 1000)
-    }
-
-    eat() {
-        console.log("Eat")
-    } */
+    
+ 
 }

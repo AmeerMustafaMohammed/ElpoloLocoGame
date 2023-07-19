@@ -7,7 +7,6 @@ class World
     camera_x =0;
     canThrowMaximalBottle = true;
     characters =  [new Character()]
-    Character = this.characters[0]
     treasure ={
         "coins": 0,
         "bottle":0,
@@ -20,7 +19,8 @@ class World
         new Bottle(800,350) ,
         new Bottle(1000,350) ,
         new Bottle(2000,350) ,
-        new Bottle(2200,350) ,  
+        new Bottle(2200,350) ,
+  
         new Coin(200,100) ,
         new Coin(800,100) ,
         new Coin(1000,100) ,
@@ -108,7 +108,7 @@ class World
         this.canThrowMaximalBottle = false;
         setTimeout(() => {
           this.canThrowMaximalBottle = true;
-        }, 1000);
+        },500);
     }
     //TODO::
     throwBottle(){
@@ -122,9 +122,14 @@ class World
 
     //COLISIONENS
     checkCollisions(){
+        //Killing enemies
         this.detectKilling()
+        this.detectEndbosKilling()
+
+        //Charakter being hurt and killed
         this.detectEnemyCollision()
-        this.detectEndbosCollision()
+        this.detectEndbossCollision()
+        //Colleting treasurey
         this.detectCollectibleCollision()
     }
 
@@ -133,44 +138,56 @@ class World
     enemies.forEach((enemy)=>{
         if(this.characters[0].isColliding(enemy) && !enemy.dead){
             this.characters[0].hit()
+            this.updateCharacterLifebar()
         }
     })
  }
 
- 
+ detectEndbossCollision(){
+    let endBoss = this.level.specialEnemies[0];
+    if(endBoss.isColliding(this.characters[0])){
+        console.log("Colliding with ENDBOSS")
+        this.characters[0].hit()
+        this.updateCharacterLifebar() 
+    }
+
+ }
+
+
  detectKilling() {
     let enemies = this.level.enemies;
-    enemies.forEach((enemy, index) => {
+    enemies.forEach((enemy) => {
       if (this.characters[0].KillingNormalAnemy(enemy) && !enemy.dead) {
         enemy.dead = true;
-    
-        //enemy.playDeadSound();
-        // Remove the killed enemy from the enemies array
-        setTimeout(()=>{
-        this.level.enemies.splice(index, 1);     
-        },1000)
+        this.deleteObjectOnMap(this.level.enemies,enemy,1000)
       }
     });
   }
+
+  detectEndbosKilling(){
+    let endBoss = this.level.specialEnemies[0];
+    this.throwableObjects.forEach((bootle)=>{
+        if(bootle.isColliding(endBoss) && !bootle.splashed){
+           endBoss.energy -= 20;
+           bootle.splasch();
+           this.updateEndbossLifebar(endBoss)
+           this.deleteObjectOnMap(this.throwableObjects,bootle,180)
+        }
+    })
+     }
+
  detectCollectibleCollision(){
         this.collectableObjects.forEach((collectableObject)=>{
             if(this.characters[0].isColliding(collectableObject)){ 
                 this.addToMyTreasure(collectableObject)
-                collectableObject.removeObject(collectableObject,this.collectableObjects)
+                 this.deleteObjectOnMap(this.collectableObjects,collectableObject )
              }
           
         })
        }
         
-    detectEndbosCollision(){
-    let endBoss = this.level.specialEnemies[0];
-    this.throwableObjects.forEach((bootle)=>{
-        if(bootle.isColliding(endBoss)){
-           endBoss.hit();
-           bootle.splasch();
-        }
-    })
-     }
+
+   
 addToMyTreasure(collectableObject){
     if(collectableObject instanceof Coin){
 
@@ -185,15 +202,22 @@ addToMyTreasure(collectableObject){
 
 }
 
+
+//UPDATEING LIFEBARS
     updateCoinbar(){
         this.level.coinbar[0].changePercentage(this.treasure["coins"]);
     }
     updateBottelbar(){
-       
         this.level.bottelbar[0].changePercentage(this.treasure["bottle"]);
     }
       
+    updateCharacterLifebar(){
+        this.level.lifebar[0].changePercentage(this.characters[0].energy);
+     }
     
+     updateEndbossLifebar(endBoss){
+        this.level.lifebar[1].changePercentage(endBoss.energy);
+       }
    
     /* FRAME */
     drawFrame(x,y,width,height){
@@ -251,4 +275,13 @@ addToMyTreasure(collectableObject){
         this.characters[0].world = this
        
     }
+
+    
+deleteObjectOnMap(ObjectArray,objectToDelete,deley){
+    setTimeout(()=>{
+        let i = ObjectArray.indexOf(objectToDelete);
+        ObjectArray.splice(i,1);
+        },deley)
+  }
+
 }

@@ -2,6 +2,7 @@ class ThroableBottle extends Bottle{
     height = 100;
     width= 120;
     incrementAmount = 12;
+    splashed = false;
     constructor(x,y,charackterDirection){
         super();
         this.loadImage("img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png")
@@ -33,8 +34,8 @@ class ThroableBottle extends Bottle{
     }
 
     splasch(){
-        this.playAnimation(this.IMAGE_SPLASH,30)
-        console.log("splashing")
+        this.playAnimation(this.IMAGE_SPLASH,30)  
+        this.splashed = true;
     }
   
 }

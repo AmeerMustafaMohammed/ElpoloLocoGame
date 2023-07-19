@@ -1,5 +1,5 @@
 class Bottle extends CollectableObject{
-
+    splashed = false;
     IMAGE_ROTATION = [
         "img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
         "img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png",

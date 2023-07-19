@@ -50,7 +50,6 @@ class MovableObject extends DrawableOject{
     playAnimation(images,animationSpeed){
         this.setAnimationSpeed(animationSpeed)
      let id = setInterval(()=>{
-
             let i = this.currentImage % images.length   
             let path =images[i]
             this.img = this.imageCache[path]
@@ -111,8 +110,13 @@ class MovableObject extends DrawableOject{
         return firstCondition && secondCondition
     }
 
-    hit(){
-        this.energy -=2;
+    hit(strength){
+        if(strength){
+            this.energy -= strength;
+        }else{
+            this.energy -=2;
+        }
+        
         if(this.energy<0){
             this.energy = 0;
         }
@@ -132,10 +136,6 @@ class MovableObject extends DrawableOject{
             return timepassed < 0.5;
        }
 
-
-       removeObject(object,array){
-        array.splice(array.indexOf(object), 1);
-    }
-
+    
     
 } 

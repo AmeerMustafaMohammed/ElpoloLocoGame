@@ -40,8 +40,9 @@ const levelEins= new Level(
     specialEnemies = [
         new Endboos()
     ],
-    lifebar = [new LifeBar()],
+    lifebar = [new LifeBar(),new BigBossLifeBar()],
     coinbar = [new CoinBar()],
-    bottelbar = [new BottleBar()]
+    bottelbar = [new BottleBar()],
+    
 );
 
