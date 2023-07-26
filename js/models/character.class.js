@@ -106,7 +106,8 @@ class Character extends MovableObject {
 
     
     jumpAnimation(){
-        setInterval(()=>{
+       let intervalID =  setInterval(()=>{
+           // console.log("JUMP_ANIMATION")
             if(this.isInAir()){
                 this.changeImages(this.JUMP_IMAGES)
             }
@@ -115,11 +116,17 @@ class Character extends MovableObject {
                 this.jump()
             }
         }, 200 )
+    
+        console.log(intervalID)
+    this.saveIntervalId(intervalID)
+    console.log(this.localInterval)
 
     }
 
     deadAnimation(){
         setInterval(()=>{
+            //console.log("DEAD_ANIMATION")
+
             if( this.isDead()){
                 this.changeImages(this.IMAGE_DEAD)
           
@@ -129,12 +136,14 @@ class Character extends MovableObject {
 
     hurtAnimation(){
         setInterval(()=>{
+           // console.log("_ANIMATION")
             if(this.isHurt()){
                 this.changeImages(this.IMAGE_HURT)
           
             }
         }, 200 )
     }
+
     changeImages(images){
         let i = this.currentImage % images.length
         let path = images[i]
@@ -142,4 +151,5 @@ class Character extends MovableObject {
         this.currentImage++
     }
     
+
 }

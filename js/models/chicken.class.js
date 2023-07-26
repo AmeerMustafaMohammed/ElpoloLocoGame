@@ -37,7 +37,7 @@ class Chicken extends MovableObject {
        
           },1000/60)
           this.saveIntervalId(id)
-        
+        console.log(this.localInterval)
           this.playAnimation(this.IMAGE_WALKING)
     }
 
