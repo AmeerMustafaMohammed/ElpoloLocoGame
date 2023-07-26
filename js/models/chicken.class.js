@@ -27,18 +27,20 @@ class Chicken extends MovableObject {
             this.walking() 
     }
     walking(){
-      let id = setInterval(()=>{
+      let intervalID = setInterval(()=>{
             if(!this.dead){
                 this.moveleft() 
             }else{
-               this.stopAnimation()
+                this.stopObjectAnimation()
                this.isDead()
+               
             }
-       
+            
+            console.log("1 ")
           },1000/60)
-          this.saveIntervalId(id)
-        console.log(this.localInterval)
+          this.pushIntervalIds(intervalID)
           this.playAnimation(this.IMAGE_WALKING)
+
     }
 
     isDead(){

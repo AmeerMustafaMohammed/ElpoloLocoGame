@@ -12,19 +12,23 @@
 
 <body onload="init()">
 
-    <h1>El pollo loco</h1>
+    <h1 style="color:white">El pollo loco</h1>
+    <button onclick="pauseGame()">PAUSE</button>
     <canvas width="720" height="480" id="canvas">
        
     </canvas>
-
-
+    
+    <script src="./js/models/world.class.js"></script>
+    <script src="./js/models/keyboard.class.js"></script>
+    <script src="./js/game.js" ></script>
+    
     <script src="./js/models/drawable-object.class.js"></script>
     <script src="./js/models/movable-object.class.js"></script>
     
     <script src="./js/models/collectable-objects.class.js"></script>
 
     <script src="./js/models/level.class.js"></script>
-    <script src="./js/models/world.class.js"></script>
+    
     
     <!-- STATUS BARS -->
     <script src="./js/models/statusBars/status-bar.class.js"></script>
@@ -42,10 +46,10 @@
     <script src="./js/models/throable-bottle.class.js"></script>
 
     <script src="./js/models/endboss.class.js"></script>
-    <script src="./js/models/keyboard.class.js"></script>
+   
     <script src="./js/levels/levelEins.js"></script>
 
-    <script src="./js/game.js" defer></script>
+   
 </body>
 
 </html>

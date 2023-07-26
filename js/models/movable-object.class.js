@@ -8,7 +8,7 @@ class MovableObject extends DrawableOject{
     acceleration = 2.5;
     speedY = 0;
     lastHit =0;
-    localInterval = [];
+    objectInterval = [];
     walkingAudio = new Audio("Audio/walking.mp3")
     offset = {
         top: 0,
@@ -55,7 +55,7 @@ class MovableObject extends DrawableOject{
             this.img = this.imageCache[path]
             this.currentImage++
         },this.animationSpeed)
-        this.saveIntervalId(id)
+        this.pushIntervalIds(id)
     }
 
 
@@ -66,16 +66,8 @@ class MovableObject extends DrawableOject{
         }
     }
 
-  stopAnimation(){
-    this.localInterval.forEach((e)=>{
-        clearInterval(e)
-    })
-   
-  }
+ 
 
-  saveIntervalId(id){
-    this.localInterval.push(id)
-  }
 
    
     moveRight() {
@@ -138,4 +130,15 @@ class MovableObject extends DrawableOject{
 
     
     
+       pushIntervalIds(id){
+        this.objectInterval.push(id);
+        allIntervals.push(id);
+       }
+
+       stopObjectAnimation(){
+        this.objectInterval.forEach((e)=>{
+            clearInterval(e)
+        })
+        console.log("ObjectInterval " , this.objectInterval)
+       }
 } 

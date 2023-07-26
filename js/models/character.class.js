@@ -66,7 +66,7 @@ class Character extends MovableObject {
 
     //SUB Functions FOR WALKING ANIMATION
     movingCharackter(){
-        setInterval(() => {    
+        setStopableInterval(() => {    
             if (this.world.keyboard.RIGHT && this.x <this.world.level.level_end_x) {
                 this.moveRight()
             }
@@ -117,9 +117,9 @@ class Character extends MovableObject {
             }
         }, 200 )
     
-        console.log(intervalID)
-    this.saveIntervalId(intervalID)
-    console.log(this.localInterval)
+      
+    saveIntervalId(intervalID)
+    
 
     }
 

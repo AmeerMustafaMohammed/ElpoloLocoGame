@@ -1,5 +1,6 @@
 let world;
 let canvas;
+allIntervals = [];
 let keyboard = new Keyboard();
 
 function init() {
@@ -8,8 +9,24 @@ function init() {
 
 }
 
+function pauseGame(){
+    console.log("All Interwals " , allIntervals)
+    allIntervals.forEach((e)=>{
+            clearInterval(e)
+        })
+            
+}
 
 
+function saveIntervalId(id){
+    allIntervals.push(id)
+    console.log("Interwal  " , id , " Saved")
+  }
+
+function  setStopableInterval(fn,time){
+    let intervalId = setInterval(fn,time)
+    saveIntervalId(intervalId)
+}
 document.addEventListener("keydown", (event) => {
 
     let pressedKeyCode = event.keyCode;
