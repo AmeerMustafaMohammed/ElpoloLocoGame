@@ -45,6 +45,7 @@ class Chicken extends MovableObject {
 
     isDead(){
         this.loadImage("img/3_enemies_chicken/chicken_normal/2_dead/dead.png")
+        //COUNTDOWN 
         this.y += 30;
     }
 
