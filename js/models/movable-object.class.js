@@ -141,4 +141,9 @@ class MovableObject extends DrawableOject{
         })
         console.log("ObjectInterval " , this.objectInterval)
        }
+
+
+       GameOver(){
+        document.getElementById("canvas")
+       }
 } 

@@ -15,14 +15,16 @@ class Chicken extends MovableObject {
 
     constructor() {
         super().loadImage("img/3_enemies_chicken/chicken_normal/1_walk/1_w.png")
+        this.initiateObject()
+    }
+
+    initiateObject(){
         this.loadImages(this.IMAGE_WALKING)
         this.loadImages(this.IMAGE_DEAD)
         this.x = 100 + Math.random() * 2000; //min 200 max /700
-
         this.speed = 0.15 + Math.random() * 0.25;
         this.animate();
     }
-
     animate() {
             this.walking() 
     }
@@ -33,14 +35,11 @@ class Chicken extends MovableObject {
             }else{
                 this.stopObjectAnimation()
                this.isDead()
-               
             }
             
-            console.log("1 ")
           },1000/60)
           this.pushIntervalIds(intervalID)
           this.playAnimation(this.IMAGE_WALKING)
-
     }
 
     isDead(){

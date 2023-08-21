@@ -3,6 +3,7 @@ class Endboos extends MovableObject{
     x= 3*719 ;
     height = 500;
     width = 300;
+    animating = false;
     IMAGE_ALERT = [
         "img/4_enemie_boss_chicken/2_alert/G5.png",
         "img/4_enemie_boss_chicken/2_alert/G6.png",
@@ -27,11 +28,12 @@ class Endboos extends MovableObject{
 
     animate(){
         let id = setInterval(()=>{
-            if(this.isDead()){
-               this.playAnimation(this.IMAGE_DEAD,3000) 
-            }
-        },50)
+            if(this.isDead() && this.animating==false){
+                this.animating =true;
+                this.playAnimation(this.IMAGE_DEAD,500) 
+             }
+        },50 )
     }
     
  
-}
+} 

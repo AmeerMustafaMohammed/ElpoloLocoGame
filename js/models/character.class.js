@@ -6,6 +6,7 @@ class Character extends MovableObject {
     width = this.height - 100;
     speed = 8;
     world;
+    playingDeadAnimation = false;
     IMAGE_WALKING = [
         "img/2_character_pepe/2_walk/W-21.png",
         "img/2_character_pepe/2_walk/W-22.png",
@@ -43,15 +44,20 @@ class Character extends MovableObject {
 
     constructor() {
         super().loadImage("img/2_character_pepe/2_walk/W-21.png")
+        this.initiateObject()
+    }
+    
+    initiateObject(){
+        this.loadObjectImages()
+        this.animate()
+        this.applayGravity()
+    }
+    loadObjectImages(){
         this.loadImages(this.IMAGE_WALKING)
         this.loadImages(this.JUMP_IMAGES)
         this.loadImages(this.IMAGE_DEAD)
         this.loadImages(this.IMAGE_HURT)
-        this.animate()
-       this.applayGravity()
     }
-
-
     animate() {
         this.walking()
         this.jumpAnimation()
@@ -117,19 +123,14 @@ class Character extends MovableObject {
             }
         }, 200 )
     
-      
-    saveIntervalId(intervalID)
-    
-
     }
 
     deadAnimation(){
         setInterval(()=>{
-            //console.log("DEAD_ANIMATION")
-
-            if( this.isDead()){
+            if( this.isDead() && this.playingDeadAnimation == false){
+                this.playingDeadAnimation == true;
                 this.changeImages(this.IMAGE_DEAD)
-          
+                this.GameOver()
             }
         }, 200 )
     }
@@ -139,7 +140,6 @@ class Character extends MovableObject {
            // console.log("_ANIMATION")
             if(this.isHurt()){
                 this.changeImages(this.IMAGE_HURT)
-          
             }
         }, 200 )
     }
