@@ -3,10 +3,24 @@ let canvas;
 allIntervals = [];
 let keyboard = new Keyboard();
 
-function init() {
-    canvas = document.getElementById("canvas")
-    world = new World(canvas, keyboard)
 
+
+function startMyGame(){
+    showCanvas();
+    world = new World(canvas, keyboard)
+    hideStartBackground();
+   
+}
+
+function showCanvas(){
+    document.getElementById("start-button").blur();
+    canvas = document.getElementById("canvas")
+    canvas.style.display = "block";
+}
+
+function hideStartBackground(){
+    startScreen = document.getElementById("start-screen")
+    startScreen.style.display = "none";
 }
 
 function pauseGame(){
@@ -20,13 +34,13 @@ function pauseGame(){
 
 function saveIntervalId(id){
     allIntervals.push(id)
-    console.log("Interwal  " , id , " Saved")
   }
 
 function  setStopableInterval(fn,time){
     let intervalId = setInterval(fn,time)
     saveIntervalId(intervalId)
 }
+
 document.addEventListener("keydown", (event) => {
 
     let pressedKeyCode = event.keyCode;

@@ -4,8 +4,29 @@ body {
     align-items: center;
     justify-content: center;
     background-color: rgb(0, 0, 0);
+    background-image: url("./img/desert.png");
+}
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Schwarz mit 50% Opazität */
+    z-index: -1;
 }
 
+
 canvas {
-    background-color: rgb(227, 216, 216);
+    background-color: black;
+    display: none;
+    border-radius: 20px;
+    box-shadow: 0px 0 10px 10px rgba(0, 0, 0, 0.35);
+}
+
+.start-screen-img {
+    width: 720px;
+    height: 480px;
+    border-radius: 20px;
 }

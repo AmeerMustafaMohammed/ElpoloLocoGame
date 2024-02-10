@@ -146,7 +146,6 @@ class World
  detectEndbossCollision(){
     let endBoss = this.level.specialEnemies[0];
     if(endBoss.isColliding(this.characters[0])){
-        console.log("Colliding with ENDBOSS")
         this.characters[0].hit()
         this.updateCharacterLifebar() 
     }
@@ -273,7 +272,7 @@ addToMyTreasure(collectableObject){
 
     setWorld(){
         this.characters[0].world = this
-       
+        this.level.specialEnemies[0].world= this
     }
 
     

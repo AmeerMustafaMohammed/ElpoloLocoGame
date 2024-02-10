@@ -89,11 +89,15 @@ class MovableObject extends DrawableOject{
 
    
     isColliding(mo) {
+        if(mo){
         let rightLeft = this.x + this.width - this.offset.right > mo.x + mo.offset.left;   //   right > left =>   Collision in front
         let topBottom = this.y + this.height - this.offset.bottom > mo.y + mo.offset.top;    //    top > bottom =>   Collision bottom
         let leftRight = this.x + this.offset.left < mo.x + mo.width - mo.offset.right;       //     left > right =>   Collision behind
         let bottomTop = this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;//      bottom > top =>   Collision top  
         return rightLeft && topBottom && leftRight && bottomTop
+        }else{
+            return false;
+        }
     }
 
     KillingNormalAnemy(mo){
@@ -139,7 +143,7 @@ class MovableObject extends DrawableOject{
         this.objectInterval.forEach((e)=>{
             clearInterval(e)
         })
-        console.log("ObjectInterval " , this.objectInterval)
+        this.objectInterval = [];
        }
 
 
