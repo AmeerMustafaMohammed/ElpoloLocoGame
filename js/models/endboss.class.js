@@ -97,7 +97,9 @@ class Endboos extends MovableObject{
                 },800)
                 this.playAnimation(this.IMAGE_DEAD,500)
                 clearInterval(myInterval);
+                showWinScreen()
              }
+
         },50)
     }
     

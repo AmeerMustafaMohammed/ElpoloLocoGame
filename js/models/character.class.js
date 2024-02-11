@@ -6,6 +6,7 @@ class Character extends MovableObject {
     width = this.height - 100;
     speed = 8;
     world;
+    lastChange;
     playingDeadAnimation = false;
     IMAGE_WALKING = [
         "img/2_character_pepe/2_walk/W-21.png",
@@ -42,14 +43,41 @@ class Character extends MovableObject {
         "img/2_character_pepe/4_hurt/H-43.png"
     ]
 
+    IMAGE_IDLE_SHORT = [
+        "img/2_character_pepe/1_idle/idle/I-1.png",
+        "img/2_character_pepe/1_idle/idle/I-2.png",
+        "img/2_character_pepe/1_idle/idle/I-3.png",
+        "img/2_character_pepe/1_idle/idle/I-4.png",
+        "img/2_character_pepe/1_idle/idle/I-5.png",
+        "img/2_character_pepe/1_idle/idle/I-6.png",
+        "img/2_character_pepe/1_idle/idle/I-7.png",
+        "img/2_character_pepe/1_idle/idle/I-8.png",
+        "img/2_character_pepe/1_idle/idle/I-9.png",
+        "img/2_character_pepe/1_idle/idle/I-10.png"
+    ]
+    IMAGE_IDLE = [
+        "img/2_character_pepe/1_idle/long_idle/I-11.png",
+        "img/2_character_pepe/1_idle/long_idle/I-12.png",
+        "img/2_character_pepe/1_idle/long_idle/I-13.png",
+        "img/2_character_pepe/1_idle/long_idle/I-14.png",
+        "img/2_character_pepe/1_idle/long_idle/I-15.png",
+        "img/2_character_pepe/1_idle/long_idle/I-16.png",
+        "img/2_character_pepe/1_idle/long_idle/I-17.png",
+        "img/2_character_pepe/1_idle/long_idle/I-18.png",
+        "img/2_character_pepe/1_idle/long_idle/I-19.png",
+        "img/2_character_pepe/1_idle/long_idle/I-20.png",
+    ]
+
     constructor() {
         super().loadImage("img/2_character_pepe/2_walk/W-21.png")
+        this.energy = 1000000;
         this.initiateObject()
     }
     
     initiateObject(){
         this.loadObjectImages()
         this.animate()
+        this. Xfunction();
         this.applayGravity()
     }
     loadObjectImages(){
@@ -57,12 +85,15 @@ class Character extends MovableObject {
         this.loadImages(this.JUMP_IMAGES)
         this.loadImages(this.IMAGE_DEAD)
         this.loadImages(this.IMAGE_HURT)
+        this.loadImages(this.IMAGE_IDLE)
+        this.loadImages(this.IMAGE_IDLE_SHORT)
     }
     animate() {
         this.walking()
         this.jumpAnimation()
         this.deadAnimation()
         this.hurtAnimation()
+        this.chekSleap()
     }
 
     walking(){
@@ -75,10 +106,12 @@ class Character extends MovableObject {
         setStopableInterval(() => {    
             if (this.world.keyboard.RIGHT && this.x <this.world.level.level_end_x) {
                 this.moveRight()
+                this.Xfunction()
             }
             
             if (this.world.keyboard.LEFT && this.x >-100) {
                 this.moveleft()
+                this.Xfunction()
             }
             this.playWalkingSound()
 
@@ -120,19 +153,21 @@ class Character extends MovableObject {
 
             if(this.world.keyboard.SPACE && !this.isInAir()){
                 this.jump()
+                this.Xfunction()
             }
         }, 200 )
     
     }
 
     deadAnimation(){
-        setInterval(()=>{
+        let deadInterwal =  setInterval(()=>{
             if( this.isDead() && this.playingDeadAnimation == false){
                 this.playingDeadAnimation == true;
                 this.changeImages(this.IMAGE_DEAD)
-                this.GameOver()
+                GameOver()
             }
         }, 200 )
+        this.pushIntervalIds(deadInterwal)
     }
 
     hurtAnimation(){
@@ -140,8 +175,26 @@ class Character extends MovableObject {
            // console.log("_ANIMATION")
             if(this.isHurt()){
                 this.changeImages(this.IMAGE_HURT)
+                this.Xfunction()
             }
         }, 200 )
+    }
+
+    //TODO
+
+    Xfunction(){
+        this.lastChange = new Date().getTime();
+    }
+    chekSleap(){
+        setInterval(()=>{
+            let defeerent = (new Date().getTime()) - this.lastChange
+             if(defeerent > 1000){
+                 this.changeImages(this.IMAGE_IDLE_SHORT)
+             }
+             if(defeerent > 8000){
+                this.changeImages(this.IMAGE_IDLE)
+            }
+         }, 500)
     }
 
     changeImages(images){

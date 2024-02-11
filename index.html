@@ -12,22 +12,34 @@
 
 <body >
 
-    <h1 style="color:white">El pollo loco</h1>
+   
+   
+    <h1 style="color:white">El POLO LOCO</h1>
 
-        <div id="game-container" style="width: 720px; height: 480px;">
-            <canvas width="720" height="480" id="canvas"></canvas>
+        <div id="game-container" class="game-container " style="width: 720px; height: 480px;">
+            <canvas width="720" height="480" id="canvas" class="game_canvas"></canvas>
             <img src="/img/9_intro_outro_screens/start/startscreen_2.png" alt="StartScreen" class="start-screen-img" id="start-screen">
+            <div class="game-over-container d-none" id="game-over-container">
+                <img src="./img/5_background/first_half_background.png" alt="game-over-background" class="game-over-background" id="game-over-background">
+                <img src="./img/9_intro_outro_screens/game_over/oh no you lost!.png" alt="you Lost" class="you-lost-heading" id="you-lost-heading">
+            </div>
+            <div class="game-win-container d-none" id="game-win-container">
+                <h1> !YOU WON!</h1>
+                <img src="./img/wining.png" alt="winnig" >
+                
+            </div>
             <button onclick="startMyGame()" id="start-button">START</button>
             <button onclick="pauseGame()">PAUSE</button>
         </div>
-        
    
+        <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+    
+        
+    
+       
     
 
 
-
-
-    
     <script src="./js/models/world.class.js"></script>
     <script src="./js/models/keyboard.class.js"></script>
     <script src="./js/game.js" ></script>

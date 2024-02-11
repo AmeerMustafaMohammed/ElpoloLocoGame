@@ -5,10 +5,18 @@ let keyboard = new Keyboard();
 
 
 
+const jsConfetti = new JSConfetti()
+
+
+
+
+
+
 function startMyGame(){
     showCanvas();
     world = new World(canvas, keyboard)
     hideStartBackground();
+    hideGameOverScreen();
    
 }
 
@@ -16,6 +24,11 @@ function showCanvas(){
     document.getElementById("start-button").blur();
     canvas = document.getElementById("canvas")
     canvas.style.display = "block";
+}
+
+function hideCanvas(){
+    canvas = document.getElementById("canvas")
+    canvas.style.display = "none";
 }
 
 function hideStartBackground(){
@@ -28,10 +41,34 @@ function pauseGame(){
     allIntervals.forEach((e)=>{
             clearInterval(e)
         })
-            
+        allIntervals=[]      
 }
 
+function GameOver(){
+    pauseGame()
+    hideCanvas()
+    gameOverScreen = document.getElementById("game-over-container")
+    console.log("gameOverScreen");
+    gameOverScreen.classList.remove('d-none');
+    console.log("All Interwals after game" , allIntervals)
+}
 
+function  showWinScreen(){
+    setTimeout(()=>{
+        //pauseGame()
+        console.log("YOU WON!")
+        console.log(allIntervals)
+    },2000)
+
+    gameWinScreen = document.getElementById("game-win-container")
+    gameWinScreen.classList.remove('d-none');
+    console.log("gameOverScreen");
+    jsConfetti.addConfetti().then(() => jsConfetti.addConfetti());
+}
+function hideGameOverScreen(){
+    gameOverScreen = document.getElementById("game-over-container")
+    gameOverScreen.classList.add('d-none');
+}
 function saveIntervalId(id){
     allIntervals.push(id)
   }
