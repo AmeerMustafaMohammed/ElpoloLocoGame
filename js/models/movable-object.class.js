@@ -9,7 +9,6 @@ class MovableObject extends DrawableOject{
     speedY = 0;
     lastHit =0;
     objectInterval = [];
-    walkingAudio = new Audio("Audio/walking.mp3")
     offset = {
         top: 0,
         bottom: 0,
@@ -133,21 +132,28 @@ class MovableObject extends DrawableOject{
        }
 
     
+
+    pushIntervalIds(id){
+    this.objectInterval.push(id);
+    allIntervals.push(id);
+    }
+
+    stopObjectAnimation(){
+    this.objectInterval.forEach((e)=>{
+        clearInterval(e)
+    })
+    this.objectInterval = [];
+    }
+
+
+    GameOver(){
+    document.getElementById("canvas")
+    }
     
-       pushIntervalIds(id){
-        this.objectInterval.push(id);
-        allIntervals.push(id);
-       }
-
-       stopObjectAnimation(){
-        this.objectInterval.forEach((e)=>{
-            clearInterval(e)
-        })
-        this.objectInterval = [];
-       }
-
-
-       GameOver(){
-        document.getElementById("canvas")
-       }
+    playSound(audio){
+        if(!muted){
+            audio.play()
+        }
+       
+    }
 } 

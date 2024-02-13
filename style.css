@@ -6,8 +6,21 @@ body {
     align-items: center;
     justify-content: center;
     background-color: rgb(0, 0, 0);
-    background-image: url("./img/desert.png");
+    background-image: url("./img/dalle2.webp");
+    background-size: cover;
+    background-repeat: no-repeat; 
 }
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Schwarz mit 50% Opazität */
+    z-index: -1;
+}
+
 
 #mybutton{
     position: absolute;

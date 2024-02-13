@@ -1,16 +1,12 @@
 let world;
 let canvas;
+let muted = false;
 allIntervals = [];
 let keyboard = new Keyboard();
 
 
 
 const jsConfetti = new JSConfetti()
-
-
-
-
-
 
 function startMyGame(){
     showCanvas();
@@ -21,7 +17,6 @@ function startMyGame(){
 }
 
 function showCanvas(){
-    document.getElementById("start-button").blur();
     canvas = document.getElementById("canvas")
     canvas.style.display = "block";
 }
@@ -78,59 +73,76 @@ function  setStopableInterval(fn,time){
     saveIntervalId(intervalId)
 }
 
-document.addEventListener("keydown", (event) => {
 
+function muteSounds(){
+  
+    if(!muted){
+        muted = true;
+    }else{
+        muted = false;
+    }
+    console.log(muted)
+}
+
+
+document.addEventListener("keydown", (event) => {
     let pressedKeyCode = event.keyCode;
 
-    if (pressedKeyCode == 40) {
-        keyboard.DOWN = true
-    }
-    if (pressedKeyCode == 38) {
-        keyboard.UP = true
+    if ([40, 38, 37, 39, 32, 68].includes(pressedKeyCode)) {
+        event.preventDefault(); // Unterbricht das Standardverhalten der Taste
     }
 
-    if (pressedKeyCode == 37) {
-        keyboard.LEFT = true
+    switch (pressedKeyCode) {
+        case 40: // Unten
+            keyboard.DOWN = true;
+            break;
+        case 38: // Oben
+            keyboard.UP = true;
+            break;
+        case 37: // Links
+            keyboard.LEFT = true;
+            break;
+        case 39: // Rechts
+            keyboard.RIGHT = true;
+            break;
+        case 32: // Leertaste
+            keyboard.SPACE = true;
+            break;
+        case 68: // D
+            keyboard.D = true;
+            break;
     }
-    if (pressedKeyCode == 39) {
-        keyboard.RIGHT = true
-    }
-    if (pressedKeyCode == 32) {
-        keyboard.SPACE = true
-    }
-    if (pressedKeyCode == 68) {
-        keyboard.D = true
-    }
-
-})
-
+});
 
 document.addEventListener("keyup", (event) => {
-
     let pressedKeyCode = event.keyCode;
 
-    if (pressedKeyCode == 40) {
-        keyboard.DOWN = false
-    }
-    if (pressedKeyCode == 38) {
-        keyboard.UP = false
+    if ([40, 38, 37, 39, 32, 68].includes(pressedKeyCode)) {
+        event.preventDefault(); 
     }
 
-    if (pressedKeyCode == 37) {
-        keyboard.LEFT = false
+    switch (pressedKeyCode) {
+        case 40:
+            keyboard.DOWN = false;
+            break;
+        case 38:
+            keyboard.UP = false;
+            break;
+        case 37:
+            keyboard.LEFT = false;
+            break;
+        case 39:
+            keyboard.RIGHT = false;
+            break;
+        case 32:
+            keyboard.SPACE = false;
+            break;
+        case 68:
+            keyboard.D = false;
+            break;
     }
-    if (pressedKeyCode == 39) {
-        keyboard.RIGHT = false
-    }
-    if (pressedKeyCode == 32) {
-        keyboard.SPACE = false
-    }
-    if (pressedKeyCode == 68) {
-        keyboard.D = false
-       
-    }
+});
 
-})
 
 /* 
 DOWN = 40;

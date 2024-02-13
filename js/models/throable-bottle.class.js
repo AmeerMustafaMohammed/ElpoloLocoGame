@@ -3,6 +3,7 @@ class ThroableBottle extends Bottle{
     width= 120;
     incrementAmount = 12;
     splashed = false;
+    throwAudio = new Audio("Audio/throw.mp3")
     constructor(x,y,charackterDirection){
         super();
         this.loadImage("img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png")
@@ -18,6 +19,8 @@ class ThroableBottle extends Bottle{
         this.applayGravity()
         this.changeX()
         this.rotate();
+        this.playThrowingAudio();
+       
     }
     changeX(){
         
@@ -38,4 +41,10 @@ class ThroableBottle extends Bottle{
         this.splashed = true;
     }
   
+    playThrowingAudio(){
+        if(!muted){
+            this.throwAudio.play()
+        }
+      
+    }
 }
