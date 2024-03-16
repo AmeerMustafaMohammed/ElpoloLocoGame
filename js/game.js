@@ -50,7 +50,6 @@ function GameOver(){
 
 function  showWinScreen(){
     setTimeout(()=>{
-        //pauseGame()
         console.log("YOU WON!")
         console.log(allIntervals)
     },2000)
