@@ -4,11 +4,14 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    height: 100vh;
+    max-width: 100vw;
+    padding-top: 7%;
     background-color: rgb(0, 0, 0);
     background-image: url("./img/dalle2.webp");
     background-size: cover;
-    background-repeat: no-repeat; 
+    
 }
 body::before {
     content: "";
@@ -22,6 +25,7 @@ body::before {
 }
 
 
+
 #mybutton{
     position: absolute;
 }
@@ -30,28 +34,40 @@ h1{
     font-family: 'Press Start 2P', cursive;
     font-size: 2em;
 }
-
-.game-container{
-    position: relative;
+.controlers{
+    position: absolute;
+    bottom: 0;
 }
+
+.game-container {
+    /* ... your previous properties ... */
+    border: 30px solid #FF6347; /* Initial border color */
+    animation: animated-border 7s linear infinite; /* Apply the animation */
+    border-radius: 30px;
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* To make sure the border radius applies well */
+}
+
 .game_canvas {
     background-color: black;
     display: none;
-    border-radius: 20px;
-    box-shadow: 0px 0 10px 10px rgba(0, 0, 0, 0.35);
 }
 
 .start-screen-img {
     width: 720px;
     height: 480px;
-    border-radius: 20px;
+    
 }
 
 .game-over-container {
     position: relative;
     width: 720px; /* Set the width as required */
     height: 480px; /* Set the height as required */
-    border-radius: 20px; /* Rounded corners for the container */
     overflow: hidden; /* Ensures that anything outside the border-radius is clipped */
     animation: fadeInScaleUp 1s ease-out forwards
 }
@@ -125,7 +141,11 @@ h1{
 
 
 
-
-
-
-
+@keyframes animated-border {
+    0% { border-color: #FF6347; }
+    25% { border-color: #FFD700; }
+    50% { border-color: #1E90FF; }
+    75% { border-color: #32CD32; }
+    100% { border-color: #FF6347; }
+  }
+  

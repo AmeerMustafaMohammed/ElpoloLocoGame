@@ -1,12 +1,12 @@
-class World 
-{
-    level = levelEins;
+class World {
+    level = initLevelOne();
+    mainCharacter= this.level.characters[0]
     ctx;
     canvas;
+    drawInterval;
     keyboard;
     camera_x =0;
     canThrowMaximalBottle = true;
-    characters =  [new Character()]
     treasure ={
         "coins": 0,
         "bottle":0,
@@ -26,7 +26,6 @@ class World
         new Coin(1000,100) ,
         new Coin(1900,100) ,
         new Coin(2000,100) ,
-
     ]
     
     constructor(canvas, keyboard) {
@@ -72,7 +71,7 @@ class World
         this.draw(this.level.clouds)
         this.draw(this.level.enemies)
         this.draw(this.level.specialEnemies)
-        this.draw(this.characters)
+        this.draw(this.level.characters)
       
     }
    
@@ -80,7 +79,7 @@ class World
         objects.forEach(object =>{
             //TODO
             if(true){
-                this.drawFrame(object.x, object.y, object.width,object.height)
+                //this.drawFrame(object.x, object.y, object.width,object.height)
             }
             this.flipImage(object)
             this.ctx.drawImage(object.img, object.x, object.y, object.width, object.height)
@@ -112,9 +111,9 @@ class World
     }
     //TODO::
     throwBottle(){
-        let bottelY = this.characters[0].y +(this.characters[0].height/2);
-        let bootleX = this.characters[0].x;
-        let bootleDirection = this.characters[0].otherDirection;
+        let bottelY = this.mainCharacter.y +(this.mainCharacter.height/2);
+        let bootleX = this.mainCharacter.x;
+        let bootleDirection = this.mainCharacter.otherDirection;
         let bootle = new ThroableBottle(bootleX,bottelY,bootleDirection)
         this.throwableObjects.push(bootle)
         this.updateBottelbar();
@@ -136,8 +135,8 @@ class World
     detectEnemyCollision(){
     let enemies = this.level.enemies
     enemies.forEach((enemy)=>{
-        if(this.characters[0].isColliding(enemy) && !enemy.dead){
-            this.characters[0].hit()
+        if(this.mainCharacter.isColliding(enemy) && !enemy.dead){
+            this.mainCharacter.hit()
             this.updateCharacterLifebar()
         }
     })
@@ -145,8 +144,8 @@ class World
 
  detectEndbossCollision(){
     let endBoss = this.level.specialEnemies[0];
-    if(endBoss.isColliding(this.characters[0])){
-        this.characters[0].hit()
+    if(endBoss.isColliding(this.mainCharacter)){
+        this.mainCharacter.hit()
         this.updateCharacterLifebar() 
     }
 
@@ -156,7 +155,7 @@ class World
  detectKilling() {
     let enemies = this.level.enemies;
     enemies.forEach((enemy) => {
-      if (this.characters[0].KillingNormalAnemy(enemy) && !enemy.dead) {
+      if (this.mainCharacter.KillingNormalAnemy(enemy) && !enemy.dead) {
         enemy.dead = true;
         this.deleteObjectOnMap(this.level.enemies,enemy,1000)
       }
@@ -177,7 +176,7 @@ class World
 
  detectCollectibleCollision(){
         this.collectableObjects.forEach((collectableObject)=>{
-            if(this.characters[0].isColliding(collectableObject)){ 
+            if(this.mainCharacter.isColliding(collectableObject)){ 
                 this.addToMyTreasure(collectableObject)
                  this.deleteObjectOnMap(this.collectableObjects,collectableObject )
              }
@@ -211,7 +210,7 @@ addToMyTreasure(collectableObject){
     }
       
     updateCharacterLifebar(){
-        this.level.lifebar[0].changePercentage(this.characters[0].energy);
+        this.level.lifebar[0].changePercentage(this.mainCharacter.energy);
      }
     
      updateEndbossLifebar(endBoss){
@@ -250,7 +249,7 @@ addToMyTreasure(collectableObject){
 
     reDraw() {
         let self = this;
-        requestAnimationFrame(function () {
+        this.drawInterval = requestAnimationFrame(function () {
             self.renderLevelOne();
         });
     }
@@ -271,7 +270,7 @@ addToMyTreasure(collectableObject){
 
 
     setWorld(){
-        this.characters[0].world = this
+        this.mainCharacter.world = this
         this.level.specialEnemies[0].world= this
     }
 
@@ -283,4 +282,8 @@ deleteObjectOnMap(ObjectArray,objectToDelete,deley){
         },deley)
   }
 
+
+  clearIntervals(){
+    cancelAnimationFrame(this.drawInterval);
+  }
 }

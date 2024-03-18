@@ -1,23 +1,12 @@
 class Bottle extends CollectableObject{
     splashed = false;
-    IMAGE_ROTATION = [
-        "img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
-        "img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png",
-        "img/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png",
-        "img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png",
-    ];
-    IMAGE_SPLASH = [
-        "img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png",
-        "img/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png",
-        "img/6_salsa_bottle/bottle_rotation/bottle_splash/3_bottle_splash.png",
-        "img/6_salsa_bottle/bottle_rotation/bottle_splash/4_bottle_splash.png",
-        "img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png",
-        "img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png",
-        
-    ];
+    IMAGE_ROTATION;
+    IMAGE_SPLASH;
     constructor(x,y){
         super();
         this.loadImage("img/6_salsa_bottle/2_salsa_bottle_on_ground.png")
+        this.IMAGE_ROTATION = BOTTEL_ROTATION;
+        this.IMAGE_SPLASH = BOTTEL_SPLASH;
         this.loadImages(this.IMAGE_ROTATION);
         this.loadImages(this.IMAGE_SPLASH);
         this.x = x;

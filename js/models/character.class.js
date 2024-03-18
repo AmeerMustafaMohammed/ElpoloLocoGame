@@ -12,6 +12,7 @@ class Character extends MovableObject {
     deadAudio = new Audio("Audio/dead.mp3")
    
     constructor() {
+        console.log("Charkter createt")
         super().loadImage("img/2_character_pepe/2_walk/W-21.png")
         //this.energy = 1000000;
         this.initiateObject()
@@ -24,12 +25,12 @@ class Character extends MovableObject {
         this.applayGravity()
     }
     loadObjectImages(){
-       this.loadImages(ImageAssets.CHARACTER_WALKING);
-        this.loadImages(ImageAssets.CHARACTER_JUMPING);
-        this.loadImages(ImageAssets.CHARACTER_DEAD);
-        this.loadImages(ImageAssets.CHARACTER_HURT);
-        this.loadImages(ImageAssets.CHARACTER_IDLE_SHORT);
-        this.loadImages(ImageAssets.CHARACTER_IDLE);
+       this.loadImages(IMAGE_WALKING_CHARACTER);
+        this.loadImages(CHARACTER_JUMPING);
+        this.loadImages(CHARACTER_DEAD);
+        this.loadImages(CHARACTER_HURT);
+        this.loadImages(CHARACTER_IDLE_SHORT);
+        this.loadImages(CHARACTER_IDLE);
     }
     animate() {
         this.walking()
@@ -75,7 +76,7 @@ class Character extends MovableObject {
    walkingAnimation(){
    setInterval(()=>{
         if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT){
-            this.changeImages(ImageAssets.CHARACTER_WALKING)
+            this.changeImages(IMAGE_WALKING_CHARACTER)
         }
 
     }, 100)
@@ -91,7 +92,7 @@ class Character extends MovableObject {
        let intervalID =  setInterval(()=>{
            // console.log("JUMP_ANIMATION")
             if(this.isInAir()){
-                this.changeImages(ImageAssets.CHARACTER_JUMPING)
+                this.changeImages(CHARACTER_JUMPING)
             }
 
             if(this.world.keyboard.SPACE && !this.isInAir()){
@@ -107,7 +108,7 @@ class Character extends MovableObject {
         let deadInterwal =  setInterval(()=>{
             if( this.isDead() && this.playingDeadAnimation == false){
                 this.playingDeadAnimation == true;
-                this.changeImages(ImageAssets.CHARACTER_DEAD)
+                this.changeImages(CHARACTER_DEAD)
                 GameOver()
                 this.deadAudio.play();
             }
@@ -119,7 +120,7 @@ class Character extends MovableObject {
         setInterval(()=>{
            // console.log("_ANIMATION")
             if(this.isHurt()){
-                this.changeImages(ImageAssets.CHARACTER_HURT)
+                this.changeImages(CHARACTER_HURT)
                 this.Xfunction()
             }
         }, 200 )
@@ -134,10 +135,10 @@ class Character extends MovableObject {
         setInterval(()=>{
             let defeerent = (new Date().getTime()) - this.lastChange
              if(defeerent > 1000){
-                 this.changeImages(ImageAssets.CHARACTER_IDLE_SHORT)
+                 this.changeImages(CHARACTER_IDLE_SHORT)
              }
              if(defeerent > 8000){
-                this.changeImages(ImageAssets.CHARACTER_IDLE)
+                this.changeImages(CHARACTER_IDLE)
             }
          }, 500)
     }

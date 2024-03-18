@@ -3,17 +3,16 @@ class Chicken extends MovableObject {
     y = 330;
     height = 100;
     width = 80;
-    deadAudio = new Audio("Audio/chicken.wav")
-    IMAGE_WALKING = [
-        "img/3_enemies_chicken/chicken_normal/1_walk/1_w.png",
-        "img/3_enemies_chicken/chicken_normal/1_walk/2_w.png",
-        "img/3_enemies_chicken/chicken_normal/1_walk/3_w.png"
-    ];
-    IMAGE_DEAD = "img/3_enemies_chicken/chicken_normal/2_dead/dead.png";
+    deadAudio = new Audio("./Audio/chicken.wav")
+    IMAGE_WALKING;
+    IMAGE_DEAD;
     
 
     constructor() {
         super().loadImage("img/3_enemies_chicken/chicken_normal/1_walk/1_w.png")
+        console.log("CHIKEN CHRATED")
+        this.IMAGE_WALKING = CHICKEN_WALKING;
+        this.IMAGE_DEAD = CHICKEN_DEAD;
         this.initiateObject()
     }
 
